@@ -1,0 +1,40 @@
+import com.github.jengelman.gradle.plugins.shadow.transformers.AppendingTransformer
+
+group 'com.example'
+version '1.0-SNAPSHOT'
+
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath 'org.owasp:dependency-check-gradle:2.1.1'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.2'
+    }
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+apply plugin: 'org.owasp.dependencycheck'
+apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'application'
+
+mainClassName = 'com.example.Snapshotter'
+sourceCompatibility = 1.8
+
+dependencies {
+    compile('org.apache.beam:beam-sdks-java-core:2.4.0-SNAPSHOT')
+    compile('org.apache.beam:beam-runners-flink_2.11:2.4.0-SNAPSHOT')
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+shadowJar {
+    transform(AppendingTransformer) {
+        resource = 'reference.conf'
+    }
+    relocate 'com.google.protobuf', 'shaded.protobuf'
+}
