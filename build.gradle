@@ -27,8 +27,8 @@ mainClassName = 'com.example.Snapshotter'
 sourceCompatibility = 1.8
 
 dependencies {
-    compile('org.apache.beam:beam-sdks-java-core:2.4.0-SNAPSHOT')
-    compile('org.apache.beam:beam-runners-flink_2.11:2.4.0-SNAPSHOT')
+    compile('org.apache.beam:beam-sdks-java-core:2.3.0-SNAPSHOT')
+    compile('org.apache.beam:beam-runners-flink_2.11:2.3.0-SNAPSHOT')
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 
@@ -37,4 +37,5 @@ shadowJar {
         resource = 'reference.conf'
     }
     relocate 'com.google.protobuf', 'shaded.protobuf'
+    mergeServiceFiles()
 }
